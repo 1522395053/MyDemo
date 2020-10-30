@@ -1,13 +1,12 @@
 package com.ssyh.mydemo.test.thread;
 
-import android.content.Context;
-
-import androidx.annotation.Nullable;
+import android.os.SystemClock;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class WaitNotifyNotifyAll {
+
 
     public static void main(String[] args) {
         new Storage();
@@ -50,6 +49,7 @@ class Account {
 
 class Producer extends Thread{
     private Storage storage;
+    private int count;
 
     public Producer(Storage storage) {
         this.storage = storage;
@@ -58,54 +58,70 @@ class Producer extends Thread{
     @Override
     public void run() {
         super.run();
-        synchronized (this){
-            if (storage.hasData){
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        synchronized (storage.object){
+            while (true){
+                if (storage.hasData){
+                    try {
+                        storage.object.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
+
+
+                storage.hasData = true;
+
+                System.out.println("=====生产");
+
+                storage.object.notify();
             }
+
         }
 
-        synchronized (storage.consumer){
-            storage.hasData = true;
-            System.out.println("=====生产");
-            storage.consumer.notifyAll();
-        }
+
     }
 }
 
 class Consumer extends Thread{
     private Storage storage;
+
     public Consumer(Storage storage) {
         this.storage = storage;
     }
     @Override
     public void run() {
         super.run();
-        synchronized (this){
-            if (!storage.hasData){
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        synchronized (storage.object){
+            while (true){
+                //如果没有数据
+                if (!storage.hasData){
+                    try {
+                        storage.object.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
+
+
+
+                //走到这里说明有数据，消费掉
+                storage.hasData  = false;
+
+                System.out.println("============消费");
+
+                storage.object.notify();
             }
 
 
+
         }
 
-        synchronized (storage.producer){
-            storage.hasData  = false;
-            System.out.println("============消费");
-            storage.producer.notifyAll();
-        }
     }
 }
 
 
 class Storage {
+    public Object object = new Object();
     public boolean hasData;
     public Producer producer = new Producer(this);
     public Consumer consumer = new Consumer(this);
@@ -113,9 +129,6 @@ class Storage {
 
 
     public Storage() {
-        this.producer = producer;
-        this.consumer = consumer;
-
         executorService.execute(producer);
         executorService.execute(consumer);
     }

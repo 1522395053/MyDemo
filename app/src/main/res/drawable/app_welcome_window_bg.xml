@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item  >
+
+        <color
+            android:color="#ff0000"></color>
+
+    </item>
+
+    <item>
+        <bitmap
+
+            android:gravity="center"
+            android:src="@drawable/icon_welcome_bottom" />
+    </item>
+    <!--<item
+
+        android:top="@dimen/dp_size_193">
+        <bitmap
+            android:gravity="center_horizontal|top"
+            android:src="@drawable/abc_vector_test" />
+    </item>
+    &lt;!&ndash;<item android:top="291dp">
+        <bitmap
+            android:gravity="center_horizontal|top"
+            android:src="@drawable/logo_title" />
+    </item>&ndash;&gt;
+    <item android:bottom="@dimen/dp_size_40">
+        <bitmap
+            android:gravity="center_horizontal|bottom"
+            android:src="@drawable/icon_welcome_bottom" />
+    </item>-->
+
+</layer-list>
