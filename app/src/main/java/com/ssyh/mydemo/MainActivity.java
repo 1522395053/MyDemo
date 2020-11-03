@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.ssyh.mydemo.databinding.ActivityMainBinding;
+import com.ssyh.mydemo.test.process.communication.ProcessCommuniActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,18 +24,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ImmersionBar.with(this).transparentBar().init();
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         binding.btShowDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                DialogTest.show(MainActivity.this);
-                Uri packageUri = Uri.parse("package:"+MainActivity.this.getPackageName());
+//                uninstall();
 
-                Intent intent = new Intent(Intent.ACTION_DELETE,packageUri);
-                startActivity(intent);
-
+                startActivity(new Intent(MainActivity.this, ProcessCommuniActivity.class));
             }
         });
 
@@ -62,4 +61,13 @@ public class MainActivity extends AppCompatActivity {
 
         binding.randomIvLy.setImgResList(imgResList,4,hongBaoResList);
     }
+
+    private void uninstall(){
+        Uri packageUri = Uri.parse("package:"+MainActivity.this.getPackageName());
+
+        Intent intent = new Intent(Intent.ACTION_DELETE,packageUri);
+        startActivity(intent);
+    }
+
+
 }

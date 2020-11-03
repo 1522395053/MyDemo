@@ -12,20 +12,41 @@
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
-		<activity android:name=".test.ui.anim.paowuxian.AnimalTestActivity">
+		<activity
+
+			android:name=".test.process.communication.ProcessCommuniActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
-
+		</activity>
+		<activity android:name=".test.ui.anim.paowuxian.AnimalTestActivity">
 
 		</activity>
 		<activity
 			android:name=".MainActivity"
 			android:theme="@style/AppWelcome">
 
+
 		</activity>
+
+		<service
+			android:process="com.ssyh.messagep"
+			android:name=".test.process.communication.client.OtherPMessagerService">
+		</service>
+
+		<service
+			android:enabled="true"
+			android:exported="true"
+			android:name=".test.process.communication.service.MessengerService">
+			<intent-filter>
+				<action android:name="com.ssyh.service.p"></action>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+
+
+		</service>
 	</application>
 
 </manifest>

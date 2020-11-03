@@ -1,4 +1,4 @@
-package com.ssyh.mydemo.test.process.communication;
+package com.ssyh.mydemo.test.process.communication.client;
 
 import android.app.Service;
 import android.content.Intent;
@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.ssyh.mydemo.test.utils.LogUtils;
 
-public class MainPMessagerService extends Service {
+public class OtherPMessagerService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
