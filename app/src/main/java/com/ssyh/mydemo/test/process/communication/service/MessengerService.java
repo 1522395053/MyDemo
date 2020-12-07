@@ -10,8 +10,12 @@ import androidx.annotation.Nullable;
 public class MessengerService extends Service {
     private static final int MSG_FROM_CLIENT = 0x1;
 
-    private Messenger messenger = new Messenger(new MessengerHandler(getApplicationContext()));
+    private Messenger messenger = new Messenger(new MessengerHandler());
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
 
     @Nullable
     @Override

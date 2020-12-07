@@ -13,10 +13,16 @@
 		android:layout_height="wrap_content"
 		android:text="Messenger Test!"/>
 
+	<Button android:id="@+id/btn_bind_service"
+
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="绑定服务"/>
+
 	<Button android:id="@+id/id_btn_add"
 
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="add"/>
+		android:text="发送消息"/>
 
 </LinearLayout>

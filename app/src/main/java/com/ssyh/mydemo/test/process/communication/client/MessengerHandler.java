@@ -11,13 +11,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.ssyh.mydemo.test.process.communication.Constants;
+import com.ssyh.mydemo.test.utils.ToastUtils;
 
 public class MessengerHandler extends Handler {
-     private Context mContext;
 
-    public MessengerHandler(Context context) {
-        this.mContext = context.getApplicationContext();
-    }
 
     @Override
     public void handleMessage(@NonNull Message msgFromClient) {
@@ -25,7 +22,7 @@ public class MessengerHandler extends Handler {
         switch (msgFromClient.what){
             case Constants.MSG_FROM_SERVER:
                 String message = msgFromClient.getData().getString(Constants.MESSAGE);
-                Toast.makeText(mContext,"来自服务端的消息:\n "+message,Toast.LENGTH_SHORT).show();
+                ToastUtils.toastS("from-service:\n "+message);
 
 
 

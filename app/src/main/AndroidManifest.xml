@@ -7,19 +7,20 @@
 	<application
 		android:name=".test.MyApplication"
 		android:allowBackup="true"
-		android:icon="@mipmap/ic_launcher"
+		android:icon="@drawable/icon_xiangjiao"
 		android:label="@string/app_name"
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
-		<activity
+		<activity android:name=".test.java.TestActivity">
 
-			android:name=".test.process.communication.ProcessCommuniActivity">
-			<intent-filter>
+		</activity>
+		<activity android:name=".test.process.communication.ProcessCommuniActivity">
+			<!--<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 
 				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
+			</intent-filter>-->
 		</activity>
 		<activity android:name=".test.ui.anim.paowuxian.AnimalTestActivity">
 
@@ -28,24 +29,62 @@
 			android:name=".MainActivity"
 			android:theme="@style/AppWelcome">
 
-
 		</activity>
 
-		<service
-			android:process="com.ssyh.messagep"
-			android:name=".test.process.communication.client.OtherPMessagerService">
-		</service>
-
-		<service
+		<activity-alias
+			android:name=".caomei"
 			android:enabled="true"
-			android:exported="true"
-			android:name=".test.process.communication.service.MessengerService">
+			android:icon="@drawable/icon_caomei"
+			android:targetActivity=".test.java.TestActivity">
+
 			<intent-filter>
-				<action android:name="com.ssyh.service.p"></action>
-				<category android:name="android.intent.category.DEFAULT"/>
+				<action android:name="android.intent.action.MAIN" />
+
+				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 
+		</activity-alias>
 
+		<activity-alias
+			android:name=".qingning"
+			android:enabled="false"
+			android:icon="@drawable/icon_qingning"
+			android:targetActivity=".test.java.TestActivity">
+
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+
+		</activity-alias>
+
+
+
+		<activity-alias
+			android:name=".pingguo"
+			android:enabled="false"
+			android:icon="@drawable/icon_pingguo"
+			android:targetActivity=".test.java.TestActivity">
+
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+
+		</activity-alias>
+
+		<service
+			android:name=".test.process.communication.service.MessengerService"
+			android:enabled="true"
+			android:exported="true"
+			android:process=":childp">
+			<intent-filter>
+				<action android:name="com.ssyh.service.p" />
+
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
 		</service>
 	</application>
 

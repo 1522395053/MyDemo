@@ -14,17 +14,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ssyh.mydemo.R;
+import com.ssyh.mydemo.test.process.communication.client.MessengerHandler;
 import com.ssyh.mydemo.test.utils.LogUtils;
+import com.ssyh.mydemo.test.utils.ToastUtils;
 
 public class ProcessCommuniActivity extends AppCompatActivity {
-
-
-    private Messenger messenger;
-
 
     private static final String TAG = "MainActivity";
     private static final int MSG_SUM = 0x110;
@@ -37,19 +36,7 @@ public class ProcessCommuniActivity extends AppCompatActivity {
     private Messenger mService;
     private boolean isConn;
 
-
-    private Messenger mMessenger = new Messenger(new Handler() {
-        @Override
-        public void handleMessage(Message msgFromServer) {
-            switch (msgFromServer.what) {
-                case MSG_SUM:
-                    TextView tv = (TextView) mLyContainer.findViewById(msgFromServer.arg1);
-                    tv.setText(tv.getText() + "=>" + msgFromServer.arg2);
-                    break;
-            }
-            super.handleMessage(msgFromServer);
-        }
-    });
+    private Messenger mMessenger = new Messenger(new MessengerHandler());
 
 
     @Override
@@ -58,12 +45,19 @@ public class ProcessCommuniActivity extends AppCompatActivity {
         LogUtils.d("ProcessCommuniActivity onCreate");
         setContentView(R.layout.activity_process_communi);
 
-        //开始绑定服务
-        bindServiceInvoked();
 
         mTvState = (TextView) findViewById(R.id.id_tv_callback);
+        mTvState.setText(getPackageName());
         mBtnAdd = (Button) findViewById(R.id.id_btn_add);
         mLyContainer = (LinearLayout) findViewById(R.id.id_ll_container);
+        findViewById(R.id.btn_bind_service).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //开始绑定服务
+                bindServiceInvoked();
+
+            }
+        });
 
         mBtnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,17 +66,20 @@ public class ProcessCommuniActivity extends AppCompatActivity {
                     int a = mA++;
                     int b = (int) (Math.random() * 100);
 
-                    //创建一个tv,添加到LinearLayout中
+                    /*//创建一个tv,添加到LinearLayout中
                     TextView tv = new TextView(ProcessCommuniActivity.this);
                     tv.setText(a + " + " + b + " = caculating ...");
                     tv.setId(a);
-                    mLyContainer.addView(tv);
+                    mLyContainer.addView(tv);*/
 
-                    Message msgFromClient = Message.obtain(null, MSG_SUM, a, b);
-                    msgFromClient.replyTo = mMessenger;
+                    Message msgToServer = Message.obtain(null, Constants.MSG_FROM_CLIENT/*, a, b*/);
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constants.MESSAGE,"服务端，你好");
+                    msgToServer.setData(bundle);
+                    msgToServer.replyTo = mMessenger;
                     if (isConn) {
                         //往服务端发送消息
-                        mService.send(msgFromClient);
+                        mService.send(msgToServer);
                     }
                 } catch (RemoteException e) {
                     e.printStackTrace();
@@ -99,6 +96,7 @@ public class ProcessCommuniActivity extends AppCompatActivity {
             mService = new Messenger(service);
             isConn = true;
             mTvState.setText("connected!");
+            ToastUtils.toastL("绑定成功");
         }
 
         @Override
@@ -116,8 +114,9 @@ public class ProcessCommuniActivity extends AppCompatActivity {
     private void bindServiceInvoked() {
         Intent intent = new Intent();
         intent.setAction("com.ssyh.service.p");
+        intent.setPackage("com.ssyh.mydemo.service");
         bindService(intent, mConn, Context.BIND_AUTO_CREATE);
-        LogUtils.d("bindService invoked !");
+
     }
 
     @Override
