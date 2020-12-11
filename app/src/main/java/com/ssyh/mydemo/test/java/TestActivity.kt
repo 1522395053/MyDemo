@@ -6,10 +6,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.ssyh.mydemo.R
 import kotlinx.android.synthetic.main.activity_test.*
+import leakcanary.AppWatcher
 
 
 class TestActivity : AppCompatActivity() {
     var number = 2f;
+
+    var TestActivity = this;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,5 +77,10 @@ class TestActivity : AppCompatActivity() {
         packageManager?.setComponentEnabledSetting(componentName,
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                 PackageManager.DONT_KILL_APP)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        AppWatcher.objectWatcher.watch(this,"dddd")
     }
 }

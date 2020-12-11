@@ -1,8 +1,12 @@
 package com.ssyh.mydemo.test.genericType;
 
+import com.google.gson.annotations.SerializedName;
+import com.ssyh.mydemo.test.entity.User;
+
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -23,11 +27,25 @@ public class ParameterizedTypeTest<T> {
     private List<? extends String > q_extends_List;//ParameterizedType <> 中的 ? extends String 就是 WildcardType
     private List<? extends List<String>> q_extends_stringList;//ParameterizedType <> 中的 ? extends List<String> 就是 WildcardType
 
-    public <E extends ParameterizedTypeTest & Serializable> void method(){
+    @SerializedName("ddd")
+    public <E extends ParameterizedTypeTest & Serializable> List<User> method(){
 
+        return null;
     }
 
     public static void main(String[] args) throws NoSuchFieldException {
+        Method[] declaredMethods = ParameterizedTypeTest.class.getDeclaredMethods();
+
+        for (Method declaredMethod : declaredMethods) {
+            Type genericReturnType = declaredMethod.getGenericReturnType();
+            System.out.println("genericReturnType:  "+genericReturnType + "  ，getName : "+declaredMethod.getName());
+            System.out.println(declaredMethod.getAnnotations().length);
+            if (declaredMethod.getAnnotations().length > 0){
+                System.out.println(declaredMethod.getAnnotations()[0]);
+            }
+        }
+
+
         Field[] declaredFields = ParameterizedTypeTest.class.getDeclaredFields();
 
         for (Field declaredField : declaredFields) {

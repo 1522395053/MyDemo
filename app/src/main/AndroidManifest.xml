@@ -3,6 +3,7 @@
 	package="com.ssyh.mydemo">
 
 	<permission android:name="android.permission.DELETE_PACKAGES" />
+	<uses-permission android:name="android.permission.INTERNET"/>
 
 	<application
 		android:name=".test.MyApplication"
